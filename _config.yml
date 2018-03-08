@@ -5,8 +5,7 @@ header-img: img/home-bg.jpg
 email: app@codeboy.me
 url: "http://127.0.0.1"
 description: "编码生涯的点点滴滴"
-github_username:  androiddevelop
-zhihu_username: codeboy
+github_username:  z-view
 cloud_tie_public_key: "\"7a06774f1f184badbb64d9af7c3d5c2c\""
 ##########################上述信息需要您修改,cloud_tie_public_key两侧必须有引号############################
 
@@ -69,8 +68,8 @@ rdiscount:
 redcarpet:
   extensions: []
 
-# Markdown Processors
-kramdown:
+# Markdown Processors   rdiscount,redcarpet
+markdown:     kramdown
   auto_ids:       true
   footnote_nr:    1
   entity_output:  as_char
