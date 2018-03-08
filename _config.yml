@@ -62,14 +62,14 @@ quiet:    false
 defaults: []
 
 # Markdown Processors
-rdiscount:
-  extensions: []
+# rdiscount:
+#   extensions: []
 
-redcarpet:
-  extensions: []
+# redcarpet:
+#   extensions: []
 
 # Markdown Processors   rdiscount,redcarpet
-markdown:     kramdown
+rdiscount:    
   auto_ids:       true
   footnote_nr:    1
   entity_output:  as_char
