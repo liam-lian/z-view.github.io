@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0030)https://z-view.github.io/xime/ -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<title>xiMe——新年快乐撒</title>
+
+	<style type="text/css">
+	@font-face {
+		font-family: digit;
+		src: url('digital-7_mono.ttf') format("truetype");
+	}
+</style>
+
+<link href="./xiMe——新年快乐撒_files/default.css" type="text/css" rel="stylesheet">
+
+<script type="text/javascript" src="./xiMe——新年快乐撒_files/jquery.js.下载"></script>
+
+</head>
+
+<body>
+	<audio autoplay="">
+		<source src="1.wav" type="audio/wav">
+		您的浏览器不支持 audio 元素。
+	</audio>
+	<div id="mainDiv">	<div style="background:#000; color:#FFE"></div>	<div id="code">	<span class="headifo">/**</span><br>	<span class="space"><span class="headifo">* To Xime </span><br>	<span class="space"><span class="headifo">* From 苗~</span><br>	<span class="space"><span class="headifo">* 2017.12.31</span><br>	<span class="headifo">**/</span><br><br>	<span class="keyword">Xime:</span> <br><br>	<span class="space">	<span class="comments">	新年快乐呀。撒浪嘿！<br><br><span class="space">	<span class="string">17</span>岁的这一年终于过去了呀喂，按照惯例，我依然没能和你见上一面。这一年注定将是值得纪念的一年，因为我终于</span></span></span></span></span></span></div></div>
+
+		<script>
+			$.fn.mainDiv = function() {
+				var timer=null;
+				var _this=$(this);
+				var str=_this.html();
+      // 正则替换代码行之间添加的多个空格，不去除换行输出会有明显的停顿：实际是在输出多个空格
+      str=str.replace(/(\s){2,}/g,"$1");
+      var index = 0;
+      $(this).html('');
+      var printer = function() {
+      	var args=arguments;
+      	var current = str.slice(index, index+1);
+            // html标签完整输出,如：<p>
+            if (current == '<'){
+            	index = str.indexOf('>', index) + 1;
+            }
+            else{
+            	index++;
+            }
+            timer= setTimeout(args.callee,98);
+            //位运算符: 根据setInterval运行奇偶次来判断是否加入下划线字符“_”，使输入效果更逼真
+            if (index < str.length-1){ //打印字符倒数第2个字符开始，不加下划线字符，以防止结束符可能会多输出一下划线字符
+            	_this.html(str.substring(0, index) + (index & 1 ? '_' : ''));
+            }else{
+            	_this.html(str.substring(0, index));
+            	clearTimeout(timer);
+            };
+        };
+        // 延迟1s开始
+        setTimeout(printer,200);
+    };
+    $("#mainDiv").mainDiv();
+</script>
+
+
+
+</body></html>

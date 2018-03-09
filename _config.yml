@@ -1,8 +1,8 @@
 ######################站点全局信息，需要部分修改#########################
 # Site settings
-title: zView 
+title: z-view 
 header-img: img/home-bg.jpg
-email: app@codeboy.me
+email: zview@qq.com
 url: "http://127.0.0.1"
 description: "编码生涯的点点滴滴"
 github_username:  z-view
@@ -62,14 +62,13 @@ quiet:    false
 defaults: []
 
 # Markdown Processors
-# rdiscount:
+# kramdown:
 #   extensions: []
 
 # redcarpet:
 #   extensions: []
 
-# Markdown Processors   rdiscount,redcarpet
-rdiscount:    
+rdiscount:     
   auto_ids:       true
   footnote_nr:    1
   entity_output:  as_char
