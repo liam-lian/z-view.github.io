@@ -15,6 +15,18 @@
                         </a>
                     </li>
                     {% endif %}
+
+                    {% if site.github_username %}
+                    <li>
+                        <a target="_blank" href="www.bupt.edu.cn">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    {% endif %}
+
                 </ul>
                 <p class="copyright text-muted">Copyright &copy; {{ site.title }} {{ site.time | date: '%Y' }}</p>
             </div>
