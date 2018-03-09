@@ -4,8 +4,9 @@ title: z-view
 header-img: img/home-bg.jpg
 email: zview@qq.com
 url: "http://127.0.0.1"
-description: "编码生涯的点点滴滴"
+description: "记录点滴成长"
 github_username:  z-view
+weibo_id:   5160764266
 cloud_tie_public_key: "\"7a06774f1f184badbb64d9af7c3d5c2c\""
 ##########################上述信息需要您修改,cloud_tie_public_key两侧必须有引号############################
 
