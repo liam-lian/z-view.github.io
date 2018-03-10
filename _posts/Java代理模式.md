@@ -1,0 +1,158 @@
+---
+layout:     post
+title:     Java 代理模式
+date:      2018-03-07
+category:   Java
+tags:      [Java] 
+---
+### Java代理模式
+
+代理模式是对于原来的对象的拓展，在不改变原来的目标对象的前提下，通过访问代理对象来实现和目标对象一样的业务逻辑，并且添加必要的代理功能
+
+#### 静态代理 
+
+---
+
+```java
+public interface IUserDAO {
+    void save();
+}
+```
+
+```
+public class UserDAO implements IUserDAO{
+    @Override
+    public void save() {
+        System.out.println("Saving....");
+    }
+}
+```
+
+```
+public class UserDaoProxy implements IUserDAO{  
+   //需要实现同一个接口，使用代理对象替换目标对象的使用位置
+    UserDAO userDAO;
+    @Override
+    public void save() {
+        System.out.println("before Save");//添加代理功能
+        userDAO.save();
+        System.out.println("after Save");
+    }
+}
+
+```
+
+代理模式包含如下角色：
+
+- Subject:抽象主题角色。可以是接口，也可以是抽象类。
+- RealSubject:真实主题角色。业务逻辑的具体执行者。
+- ProxySubject:代理主题角色。内部含有RealSubject的引用,负责对真实角色的调用，并在真实主题角色处理前后做预处理和善后工作。
+
+代理模式优点：
+
+- 职责清晰 真实角色只需关注业务逻辑的实现，非业务逻辑部分，后期通过代理类完成即可。
+- 高扩展性 不管真实角色如何变化，由于接口是固定的，代理类无需做任何改动。
+
+#### 动态代理
+
+代理类在程序运行时创建的代理方式被称为动态代理。也就是说，代理类并不需要在Java代码中定义，而是在运行时动态生成的。相比于静态代理， 动态代理的优势在于可以很方便的对代理类的函数进行统一的处理，而不用修改每个代理类的函数。**要想产生一个对象的代理对象，那么这个对象必须要有一个接口**
+
+通过**Proxy.newProxyInstance**方法用来创建一个对象的代理对象:
+
+```
+static Object newProxyInstance(ClassLoader loader, Class<?>[] interfaces, InvocationHandler h) 
+ClassLoader loader用来指明生成代理对象使用哪个类装载器
+Class<?>[] interfaces用来指明生成哪个对象的代理对象，通过接口指定
+InvocationHandler h用来指明产生的这个代理对象要做什么事情。
+```
+
+其中InvocationHandler是一个接口，其中只有一个方法 `public Object invoke(Object proxy, Method method,Object[] args) throws Throwable`用来指定代理对象要完成的动作。
+
+```
+ proxy : 把代理对象自己传递进来，也就是newProxyInstance的时候动态生成的proxy对象com.sun.proxy
+    1. 可以使用反射获取代理对象的信息（也就是proxy.getClass().getName()）。
+    2. 可以将代理对象返回以进行连续调用，这就是proxy存在的目的。因为this并不是代理对象.
+ method：把代理对象当前调用的方法传递进来 
+ args:把方法参数传递进来
+```
+
+也就是说使用代理对象对用的方法最终会转向invoke()方法中，然后通过反射让realObject去执行。。
+
+Proxy类负责创建代理对象时，如果指定了handler（处理器），那么不管用户调用代理对象的什么方法，该方法都是调用处理器的invoke方法。由于invoke方法被调用需要三个参数：代理对象、方法、方法的参数，因此不管代理对象哪个方法调用处理器的invoke方法，都必须把自己所在的对象、自己（调用invoke方法的方法）、方法的参数传递进来。
+
+```
+public class dynamicProxyImpl {
+
+    UserDAO usrdao=new UserDAO();
+
+    Object getProxy(){
+        return Proxy.newProxyInstance(
+                this.getClass().getClassLoader(),
+                usrdao.getClass().getInterfaces(),
+                new InvocationHandler() {
+                    @Override
+                    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                        System.out.println("before....fave");//代理添加的方法
+                        method.invoke(usrdao,args);//执行realObject的方法
+                        return null;
+                    }
+                });
+    }
+}
+其中InvocationHandler可以替换成lambda表达式处理
+return Proxy.newProxyInstance(
+                this.getClass().getClassLoader(),
+                usrdao.getClass().getInterfaces(),
+                (proxy, method, args) -> {
+                    System.out.println("before....fave");//代理添加的方法
+                    method.invoke(usrdao,args);//执行realObject的方法
+                    return null;
+                });
+```
+
+
+
+#### CGlib代理
+
+当目标类没有实现接口的时候就不能够使用上面两种Java原生的代理方式了。
+
+CGLib采用了非常底层的字节码技术，其原理是通过字节码技术为一个类创建子类，并在子类中采用方法拦截的技术拦截所有父类方法的调用，顺势织入横切逻辑。JDK动态代理与CGLib动态代理均是实现Spring AOP的基础。
+
+```
+public class cglibProxy implements MethodInterceptor {
+
+    private Object target;
+	
+	//这里生成了一个子类的代理
+    public Object getProxyInstance(Object target){
+        this.target=target;
+        //1.工具类
+        Enhancer en = new Enhancer();
+        //2.设置父类
+        en.setSuperclass(target.getClass());
+        //3.设置回调函数
+        en.setCallback(this);
+        //4.创建子类(代理对象)
+        return en.create();
+    }
+    //这个方法相当于上面的InvocationHandler，用来指明产生的这个代理对象要做什么事情。代理类调用的方法都     //会转到这里执行
+    @Override
+    public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+        System.out.println("cglib代理成功");
+        method.invoke(target,args);
+        return null;
+    }
+}
+```
+
+```
+//测试引用
+//可以看到代理类直接转型为被代理对象的类，使用时和被代理对象没有差别
+Cat cat= (Cat) new cglibProxy().getProxyInstance(new Cat());
+cat.M();
+```
+
+
+
+ **CGLib创建的动态代理对象性能比JDK创建的动态代理对象的性能高不少，但是CGLib在创建代理对象时所花费的时间却比JDK多得多，所以对于单例的对象，因为无需频繁创建对象，用CGLib合适，反之，使用JDK方式要更为合适一些。同时，由于CGLib由于是采用动态创建子类的方法，对于final方法，无法进行代理**
+

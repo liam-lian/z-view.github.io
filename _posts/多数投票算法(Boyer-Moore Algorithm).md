@@ -1,0 +1,39 @@
+---
+layout:     post
+title:     多数投票算法
+date:      2018-03-09
+category:  算法
+tags:      [算法,特色算法] 
+---
+
+# 多数投票算法(Boyer-Moore Algorithm)
+
+给定一个无序数组，有n个元素，找出其中的一个多数元素，多数元素出现的次数大于⌊ n/2 ⌋，注意数组中也可能不存在多数元素。
+
+算法：需要对原数组进行两趟扫描，并且简单易实现。第一趟扫描我们得到一个候选节点candidate，第二趟扫描我们判断candidate出现的次数是否大于⌊ n/2 ⌋。
+
+第一趟扫描中，我们需要记录2个值：
+
+1. candidate，初值可以为任何数
+2. count，初值为0
+
+之后，对于数组中每一个元素，首先判断count是否为0，若为0，则把candidate设置为当前元素。之后判断candidate是否与当前元素相等，若相等则count+=1，否则count-=1。
+
+思路：
+
+假设存在多数元素，那么事实上是把数组分成了多数元素和非多数元素，在扫描的过程中最差情形下是用所有的非多数元素抵消所有的多数元素，由于多少元素大于n/2，一定能抵消掉留下自己。也有可能是非多数元素自己彼此抵消，结果是显然的。若不存在多数元素(例如：2、7、4、1、1)，则无意义，第二次扫描即可找出。
+
+
+
+       int target=nums[0],count=0;
+       for(int i:nums){
+            if(i==target || count==0){
+                target=i;
+                count++;
+            }   
+            else
+               count--;
+        }
+        
+        return target;
+http://blog.csdn.net/kimixuchen/article/details/52787307
