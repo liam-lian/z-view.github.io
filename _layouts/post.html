@@ -12,8 +12,9 @@ layout: default
                         {% for tag in page.tags %}
                         <a class="tag" href="/tags/#{{ tag }}" title="{{ tag }}">{{ tag }}</a>
                         {% endfor %}
+                        <a class="tag" href="https://github.com/z-view/z-view.github.io/blob/master/_posts/{{ page.filename }}">Edit</a>
                     </div>
-                    <h1>{{ page.title }}<h2><a href="https://github.com/z-view/z-view.github.io/blob/master/_posts/{{ post.url }}">Edit</a></h2></h>
+                    <h1>{{ page.title }}</h>
                     {% comment %}
                         always create a h2 for keeping the margin
                     {% endcomment %}
