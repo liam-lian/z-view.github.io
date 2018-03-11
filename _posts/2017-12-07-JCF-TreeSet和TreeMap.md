@@ -1,9 +1,9 @@
 ---
 layout:     post
-title:      JCF-TreeSet和TreeMap
+title:      TreeSet和TreeMap
 date:  2017-12-07
 category:   JCF
-tags:   [Java,JCF]
+tags:   [JCF]
 ---
 TreeSet和TreeMap都是基于红黑树，其中TreeSet就是对于TreeMap的包装，仅仅利用了TreeMap中的Key      
 containsKey(), get(), put(), remove()都有着log(n)的时间复杂度  

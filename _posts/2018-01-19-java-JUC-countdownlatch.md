@@ -2,7 +2,7 @@
 layout:     post
 title:      countdownlatch
 category:   JUC
-tags:   [Java, JUC]
+tags:   [JUC]
 ---
 链接：http://www.importnew.com/15731.html
 

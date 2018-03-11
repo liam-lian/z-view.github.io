@@ -2,7 +2,7 @@
 layout:     post
 title:      wait & notify & notifyAll
 category:   JUC
-tags:   [JAVA, JUC]
+tags:   [JUC]
 ---
  
  wait与notify是java同步机制中重要的组成部分。结合与synchronized关键字使用，可以建立很多优秀的同步模型。  

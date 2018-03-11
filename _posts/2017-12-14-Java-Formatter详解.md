@@ -1,9 +1,9 @@
 ---
 layout:     post
-title:      JAVA基础理论-Formatter
+title:      Formatter详解
 date:  2017-12-14
-category:   java基础理论
-tags:   [Java,JAVA基础理论]
+category:   Java
+tags:   [Java]
 ---
 Formatter  
 ---

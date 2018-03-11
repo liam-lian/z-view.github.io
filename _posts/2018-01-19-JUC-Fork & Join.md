@@ -1,9 +1,9 @@
 ---
 layout:     post
-title:      Fork & Join
+title:      Fork&Join
 date: 2017-02-21
 category:   JUC
-tags:   [Java, JUC]
+tags:   [JUC]
 ---
 
 ## Fork/Join框架
