@@ -12,7 +12,7 @@ layout: default
                         {% for tag in page.tags %}
                         <a class="tag" href="/tags/#{{ tag }}" title="{{ tag }}">{{ tag }}</a>
                         {% endfor %}
-                        <a class="tag" href="https://github.com/z-view/z-view.github.io/blob/master/_posts/{{ page.date }}-{{ page.title }}.md" title="Edit">Edit</a>
+                        <a class="tag" href="https://github.com/z-view/z-view.github.io/blob/master/_posts/{{ page.date | date: "%Y-%m-%d" }}-{{ page.category }}-{{ page.title }}.md" title="Edit">Edit</a>
                     </div>
                     <h1>{{ page.title }}</h>
                     {% comment %}
