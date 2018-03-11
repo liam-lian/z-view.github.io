@@ -1,10 +1,9 @@
 ---
 layout:     post
-title:      NIO-buffer
+title:      NIO Buffer
 date:  2017-11-20
-keywords:   NIO
-category:   java
-tags:   [Java,NIO]
+catagory: NIO
+tags:   [NIO]
 ---
 Buffer
 ---

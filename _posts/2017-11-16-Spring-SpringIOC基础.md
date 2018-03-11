@@ -1,10 +1,9 @@
 ---
 layout:     post
-title:      Spring in Action读书笔记-高级装配
+title:      SpringIOC基础
 date:  2017-11-16
-keywords:   Spring in Action读书笔记
-category:   java
-tags:   [Java EE,Spring in Action读书笔记]
+category:   Spring
+tags:   [Spring]
 ---
 ### profile
 指定不同的profile，可以根据生产环境的不同来动态的决定是否注册他锁修饰的bean。

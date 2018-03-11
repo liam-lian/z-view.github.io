@@ -1,10 +1,9 @@
 ---
 layout:     post
-title:      基础理论-system.gc()和system.runFinalization()
+title:      system.gc()和system.runFinalization()
 date:  2017-12-06
-keywords:   基础理论
-category:   java
-tags:   [Java,基础理论]
+category:   Java
+tags:   [Java]
 ---
 System.gc(); //告诉垃圾收集器打算进行垃圾收集，而垃圾收集器进不进行收集是不确定的 
 

@@ -2,7 +2,7 @@
 layout:     post
 title:      synchronized&volatile
 category:   JUC
-tags:   [JAVA, JUC]
+tags:   [JUC]
 ---
 
 
