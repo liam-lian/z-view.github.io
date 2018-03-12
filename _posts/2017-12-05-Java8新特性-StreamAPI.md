@@ -1,10 +1,9 @@
 ---
 layout:     post
-title:      Java8新特性-Stream API
+title:      StreamAPI
 date:  2017-12-05
-keywords:   Java8新特性
-category:   java
-tags:   [Java,Java8新特性]
+category:   Java8新特性
+tags:   [Java8新特性]
 ---
 stream并不是某种数据结构，它只是数据源的一种视图。这里的数据源可以是一个数组，Java容器或I/O channel等
 - 调用Collection.stream()或者Collection.parallelStream()方法
@@ -12,10 +11,10 @@ stream并不是某种数据结构，它只是数据源的一种视图。这里�
 Stream的继承关系是：  
 ```
 BaseStream
-    - IntStream
-    - LongStream
-    - DoubleStream
-    - Stream    
+     -IntStream
+     -LongStream
+     -DoubleStream
+     -Stream    
 ```
  
  虽然大部分情况下stream是容器调用Collection.stream()方法得到的，但stream和collections有以下不同：
