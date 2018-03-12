@@ -40,7 +40,7 @@ gems:      ["jekyll-paginate"]
 #gems:      []
 
 # Conversion
-markdown:    redcarpet  #rdiscount  #kramdown
+markdown:    rdiscount  #kramdown
 highlighter: rouge #pygments  
 lsi:         false
 excerpt_separator: "\n\n"
