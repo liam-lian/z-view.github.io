@@ -2,7 +2,7 @@
 layout:     post
 title:      CharSet与Selector
 date:  2017-11-23
-keywords:   NIO
+catagory:   NIO
 tags:   [NIO]
 ---
 ### CharSet    

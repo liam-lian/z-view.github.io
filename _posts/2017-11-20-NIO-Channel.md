@@ -1,10 +1,9 @@
 ---
 layout:     post
-title:      NIO-Channel
+title:      Channel
 date:  2017-11-20
-keywords:   NIO
-category:   java
-tags:   [Java,NIO]
+category:   NIO
+tags:   [NIO]
 ---
 Channel
 ----

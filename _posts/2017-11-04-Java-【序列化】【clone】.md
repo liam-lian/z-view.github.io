@@ -1,10 +1,9 @@
 ---
 layout:     post
-title:      Java的序列化、clone 以及  深拷贝和浅拷贝
+title:      【序列化】【clone】
 date:  2017-11-04
-keywords:   基础理论
 category:   Java
-tags:   [Java,Java基础理论]
+tags:   [Java]
 ---
 
 深拷贝和浅拷贝
