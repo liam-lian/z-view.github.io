@@ -11,8 +11,8 @@ formatter在java.util包中，完成的是格式化操作的任务
 
 #### 基本格式
 %[argument_index$][flags][width][.precision]conversion  
-##### conversion
-必选项目。  
+##### conversion(必选项目) 
+
 格式|意义|例子
 -|-|-
 %s|字符串类型 |"mingrisoft"
@@ -28,6 +28,7 @@ formatter在java.util包中，完成的是格式化操作的任务
 %h|散列码| 
 %%|百分比类型|％(就是一个%的转义)
  %tx|日期与时间类型（x代表不同的日期与时间转换符|  
+ 
 ##### [argument_index$]  
 引用后面的第index个参数    1$、2$等
 #####  width  
