@@ -1,9 +1,9 @@
 ---
 layout:     post
-title:      mevan-maven命令
+title:      maven命令
 date:  2017-09-23
-category:   mevan
-tags:   [工具&知识,mevan]
+category:   maven
+tags:   [maven]
 ---
 ### Meavn的常用命令
 

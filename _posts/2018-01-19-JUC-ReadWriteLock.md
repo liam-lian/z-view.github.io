@@ -2,7 +2,7 @@
 layout:     post
 title:      ReadWriteLock
 category:   JUC
-tags:   [Java, JUC]
+tags:   [JUC]
 ---
 ReentrantReadWriteLock会使用两把锁来解决问题，一个读锁，一个写锁
 ### 线程进入读锁的前提条件：

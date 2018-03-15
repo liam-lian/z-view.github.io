@@ -1,10 +1,9 @@
 ---
 layout:     post
-title:      Java8新特性-Collection中增加的新的方法
+title:      Collection中增加的新的方法
 date:  2017-12-06
-keywords:   Java8新特性
 category:   Java8新特性
-tags:   [Java,Java8新特性]
+tags:   [Java8新特性]
 ---
 #### Collection中的新方法  
 1. forEach()  

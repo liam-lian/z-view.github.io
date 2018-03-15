@@ -1,9 +1,9 @@
 ---
 layout:     post
-title:      Mybatis-逆向工程
+title:      Mybatis逆向工程
 date:  2017-09-23
 category:   Mybatis
-tags:   [Java EE,Mybatis]
+tags:   [Mybatis]
 ---
 ## Mybatis 逆向工程（Mybatis Generator）
 

@@ -1,10 +1,9 @@
 ---
 layout:     post
-title:      Java8新特性-Stream API2
+title:      StreamAPI(ii)
 date:  2017-12-06
-keywords:   Java8新特性
-category:   java
-tags:   [Java,Java8新特性]
+category:   Java8新特性
+tags:   [Java8新特性]
 ---
 # Streams API(II)
 

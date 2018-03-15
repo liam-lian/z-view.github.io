@@ -1,10 +1,9 @@
 ---
 layout:     post
-title:      Java8新特性-Functional Interface
+title:      Functional Interface
 date:  2017-12-05
-keywords:   Java8新特性
-category:   java
-tags:   [Java,Java8新特性]
+category:   Java8新特性
+tags:   [Java8新特性]
 ---
 ### 函数式接口
 FI实际上是一个接口，其中只能有一个方法（默认方法和静态方法不算）！  

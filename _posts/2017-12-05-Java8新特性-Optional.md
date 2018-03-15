@@ -1,10 +1,9 @@
 ---
 layout:     post
-title:      Java8新特性-Optional
+title:      Optional
 date:  2017-12-05
-keywords:   Java8新特性
-category:   java
-tags:   [Java,Java8新特性]
+category:   Java8新特性
+tags:   [Java8新特性]
 ---
   OPtional是Java 8中的新特性，在java.util包中。javadoc描述为
  ```

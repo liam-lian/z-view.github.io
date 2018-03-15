@@ -2,7 +2,7 @@
 layout:     post
 title:      Semaphore.md
 category:   JUC
-tags:   [Java, JUC]
+tags:   [JUC]
 ---
 
 ## 信号量(Semaphore)
