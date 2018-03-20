@@ -1,9 +1,9 @@
 ---
 layout:     post
-title:      JCF-Stack and Queue
+title:      Stack and Queue
 date:  2017-12-07
 category:   JCF
-tags:   [Java,JCF]
+tags:   [JCF]
 ---
 
 Java里有一个叫做*Stack*的类，却没有叫做*Queue*的类（它是个接口名字）。当需要使用栈时，Java已不推荐使用*Stack*，而是推荐使用更高效的*ArrayDeque*；既然*Queue*只是一个接口，当需要使用队列时也就首选*ArrayDeque*了（次选是*LinkedList*）。  
