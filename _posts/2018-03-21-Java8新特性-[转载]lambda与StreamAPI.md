@@ -1,9 +1,9 @@
 ---
 layout:     post
-title:  [转载]lambda与StreamAPI
-date:  2018-03-20
-category:   Java8新特性
-tags:   [Java8新特性]
+title:      <转载>lambda与StreamAPI
+date:       2018-03-20
+category:    Java8新特性
+tags:    [Java8新特性]
 ---
 # Java Functional Programming Internals
 
