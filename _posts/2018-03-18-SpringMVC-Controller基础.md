@@ -19,7 +19,7 @@ String[] headers() default {};
 通过上面的四个域可以精确的限定url要求
 
 ```
-params 和headers支持简单的表达式：
+  params和headers支持简单的表达式：
 – param1: 表示请求必须包含名为param1 的请求参数
 – !param1: 表示请求不能包含名为param1 的请求参数
 – param1!= value1: 表示请求包含名为param1 的请求参数，但其值不能为value1
@@ -36,7 +36,7 @@ params 和headers支持简单的表达式：
 
 测试代码
 
-```
+```Java
 @RequestMapping( value = "/a/b*/**/c",
 				method = RequestMethod.GET,
 				params = {"name", "id=3"},
@@ -49,9 +49,9 @@ public String testParaAndHeader(){
 
 ### HiddenHttpMethodFilter
 
-HiddenHttpMethodFilter捕获进入容器中的请求，然后根据请求中的method参数所指定的值将请求包装为其他类型的请求。由于浏览器发出的只能是GET和POST请求，使用此过滤器可以将请求包装为DELETE或者PUT等请求，有利于使用RESTful风格的请求。需要在发送 POST 请求时携带一个 _method, 值为 DELETE 或 PUT，这样请求就会被包装成为相应的请求了。
+HiddenHttpMethodFilter捕获进入容器中的请求，然后根据请求中的_method参数所指定的值将请求包装为其他类型的请求。由于浏览器发出的只能是GET和POST请求，使用此过滤器可以将请求包装为DELETE或者PUT等请求，有利于使用RESTful风格的请求。需要在发送 POST 请求时携带一个 _method, 值为 DELETE 或 PUT，这样请求就会被包装成为相应的请求了。
 
-```
+```Xml
 //web.xml中配置Filter
 <filter>
     <filter-name>httpMethodFilter</filter-name>
@@ -64,7 +64,7 @@ HiddenHttpMethodFilter捕获进入容器中的请求，然后根据请求中的m
 
 ```
 
-```
+```Java
 //RESTful风格的请求
 @ResponseBody
 @RequestMapping(value = "/filter/{id}",method = RequestMethod.DELETE)
@@ -78,7 +78,7 @@ public String testHiddenHttpMethodFilterput(@PathVariable Integer id){
 }
 ```
 
-```
+```Java
 //源码
 public class HiddenHttpMethodFilter extends OncePerRequestFilter {
    //指定包装请求类型的参数，默认为_method
@@ -105,7 +105,7 @@ public class HiddenHttpMethodFilter extends OncePerRequestFilter {
 
 ### @RequestParam和@RequestHeader
 
-```
+```Java
 //参数有：required、defaultValue
 @RequestMapping("/testRequestParam")
 @ResponseBody
@@ -119,7 +119,7 @@ public String testRequestParam(@RequestParam(value = "id",required = false,defau
 
 @CookieValue用来取得Cookie的值，用法实际上与@RequestParam相同
 
-```
+```Java
 @ResponseBody
 @RequestMapping("/testCookieValue")
 public String testCookieValue(@CookieValue(value = "cookieID",required = false) String id , HttpServletResponse response){
@@ -149,8 +149,8 @@ public void testPOJO(Person person){
 - HttpSession
 - java.security.Principal
 - Locale
-   InputStream	 OutputStream
-    Reader 	Writer
+- InputStream	 OutputStream
+- Reader 	Writer
 
 
 ### 模型
@@ -167,7 +167,7 @@ public void testPOJO(Person person){
 
 ```
 @RequestMapping("/testModel")
-public String testModel(Model model, HttpServletRequest request){
+public String testModel(Model model){
     model.addAttribute("lz","lzzz");
     return "forward:/zz";
 }
@@ -186,7 +186,7 @@ public String testModel1(Model model, HttpServletRequest request){
 将在模型中对应的属性暂存到HttpSession 中。 @SessionAttributes 除了可以通过属性名指定需要放到会
 话中的属性外，还可以通过模型属性的对象类型指定哪些模型属性需要放到会话中。**注意注解是放在类上面的**
 
-```
+```Java
 @Controller
 @SessionAttributes(value = "name",types = Address.class)
 public class HomeController {
