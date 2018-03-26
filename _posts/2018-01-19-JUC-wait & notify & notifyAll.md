@@ -42,7 +42,7 @@ synchronized (sharedObject) {
 5. 基于前文提及的理由，更倾向用 notifyAll()，而不是 notify()。
 
 下面给出一个生产者、消费者的例子
-```
+```Java
 public class Wait_Notify {
 
     public static void main(String[] args) {

@@ -107,7 +107,6 @@ public class MyfactoryBean implements FactoryBean<Car> {
 }
 ```
 
-事实上，FactoryBean的方式与上面的使用工厂配置Bean的方法类似，只不过是通过接口直接告诉了容器我要使用的是工厂方法进行创建！
-
-
+事实上，FactoryBean的方式与上面的使用工厂配置Bean的方法类似，只不过是通过接口直接告诉了容器我要使用的是工厂方法进行创建！     
+FactoryBean是一个接口，当在IOC容器中的Bean实现了FactoryBean后，通过getBean(String BeanName)获取到的Bean对象并不是FactoryBean的实现类对象，而是这个实现类中的getObject()方法返回的对象。要想获取FactoryBean的实现类，就要 **getBean(&BeanName)** ，在BeanName之前加上&。
 
