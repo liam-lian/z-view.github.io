@@ -115,3 +115,29 @@ private Date birth;
 LocalValidatorFactoryBean，通过在处理方法的入参上标
 注@valid 注解即可让Spring MVC 在完成数据绑定后执行
 数据校验的工作
+
+### Flash
+
+正常的MVC Web应用程序在每次提交都会POST数据到服务器。一个正常的Controller (被注解 @Controller标记)从请求获取数据和处理它 (保存或更新数据库)。一旦操作成功，用户就会被带到（forward）一个操作成功的页面。传统上来说，这样的POST/Forward/GET模式,有时候会导致多次提交问题. 例如用户按F5刷新页面，这时同样的数据会再提交一次。
+
+为了解决这问题, [POST/Redirect/GET](http://en.wikipedia.org/wiki/Post/Redirect/Get) 模式被用在MVC应用程序上. 一旦用户表单被提交成功， 我们重定向（Redirect）请求到另一个成功页面。这样能够令浏览器创建新的GET请求和加载新页面。这样用户按下F5，是直接GET请求而不是再提交一次表单。
+
+通常当我们生成一次http重定向请求的时候，被存储到请求数据会丢失，使得下一次GET请求不可能访问到这次请求中的一些有用的信息.
+
+Flash attributes 的到来就是为了处理这一情况. Flash attributes 为一个请求存储意图为另外一个请求所使用的属性提供了一条途径. Flash attributes 在对请求的重定向生效之前被临时存储（通常是在session)中，并且在重定向之后被立即移除.
+
+RedirectAttributes继承了Model接口。
+
+```Java
+@RequestMapping("/testFlash")
+public String testFlash(RedirectAttributes redirectAttributes){
+    redirectAttributes.addFlashAttribute(new Address("zz","pp"));
+    return "redirect:/ser/zzz";
+}
+@RequestMapping("/zzz")  //这里重定向之后可以得到address，但是再次刷新就得不到了，因为Flash attributes在重定向之后就被移除了
+@ResponseBody
+public String zzz(Address address){
+    return address.toString();
+}
+```
+
