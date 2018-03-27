@@ -72,7 +72,7 @@ WeakReference是Java语言规范中为了区别直接的对象引用（程序中
 
 当ThreadLocal对象不再使用，可以被GC的时候，对应的在线程中ThreadLocalMap里的键值对也会失效。然而ThreadLocal对象回收后，所有对于该对象的弱引用只是变成了null。ThreadLocalMap在set的时候将键值为null的Entry替换掉。在resize的时候还会把null值的key对应的value置为null，方便gc。
 
-```
+```Java
 static class Entry extends WeakReference<ThreadLocal<?>> {
     /** The value associated with this ThreadLocal. */
     Object value;
@@ -96,7 +96,7 @@ Thread2---->包含Map2，Map中的key是LOCAL，val是new Integer(0)。
 
 每一次的set都是将val赋予了新的对象。也就是说每一个线程拥有一个map，虽然她们的key是相同的，但是是完全独立的。	
 
-```java
+```Java
 public class TestThreadLocal implements Runnable{
 
     private final static ThreadLocal<Integer> LOCAL=new InheritableThreadLocal<Integer>(){
