@@ -15,7 +15,7 @@ tags:   [Mybatis]
 ---
 
 xml文件主要作用是告诉MBG：
-
+```XML
 - How to connect to the database
 - What objects to generate, and how to generate them
 - What tables should be used for object generation
@@ -96,12 +96,12 @@ xml文件主要作用是告诉MBG：
             </table>
         </context>
     </generatorConfiguration>
-
+```
 ### 运行
 ---
 
 使用插件
-
+```XML
     <build>
             <finalName>zsxt</finalName>
             <plugins>
@@ -117,7 +117,7 @@ xml文件主要作用是告诉MBG：
                 </plugin>
             </plugins>
         </build>
-
+```
 之后添加一个添加一个“Run运行”选项
 
 在meaven中输入：mybatis-generator:generate -e
@@ -162,7 +162,7 @@ where后面的所有的条件都可以使用Criteria进行设置，包括大于�
 再次注意Criteria层面的都是and，or是在Example层面上的。
 
 两个例子：
-
+```Java
     ---例子1---
     studentExample studentExample=new studentExample();
     studentExample.Criteria criteria=studentExample.createCriteria();
@@ -179,9 +179,9 @@ where后面的所有的条件都可以使用Criteria进行设置，包括大于�
     List list=studentMapper.selectByExample(studentExample);
     上面两个例子都是等价的，对应 的sql语句如下。
     select id, name, gender, addr, c_id from student WHERE ( id < ? and name = ? ) or( c_id = ? ) 
-
+```
 最后说明一下XXMapper的方法：
-
+```Java
     int countByExample(studentExample example);
     
     int deleteByExample(studentExample example);
@@ -205,7 +205,8 @@ where后面的所有的条件都可以使用Criteria进行设置，包括大于�
     int updateByPrimaryKey(student record);
 
 这里面都非常简单，只需要考虑XXSelective的方法
-
+    
 int insertSelective(student record);   插入数值。直插入赋了值的域
 
 int updateByPrimaryKeySelective(student record) ；//只更新赋了值的域，不会把record中的空也更新到数据库
+```
