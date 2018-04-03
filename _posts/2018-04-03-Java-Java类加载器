@@ -1,0 +1,91 @@
+---
+layout:     post
+title:      JavaClassLoader
+date:       2018-04-03
+category:  Java
+tags:   	[Java]
+---
+三篇日志
+[深入理解Java类加载器](https://www.ibm.com/developerworks/cn/java/j-lo-classloader/index.html)  
+[双亲委派模型](https://www.ibm.com/developerworks/cn/java/j-lo-classloader/index.html)
+[java能不能自己写一个类叫java.lang.System](https://blog.csdn.net/tang9140/article/details/42738433)
+类加载器会首先代理给其它类加载器来尝试加载某个类。这就意味着真正完成类的加载工作的类加载器和启动这个加载过程的类加载器，
+有可能不是同一个。真正完成类的加载工作是通过调用 defineClass来实现的；而启动类的加载过程是通过调用 loadClass来实现的。
+前者称为一个类的定义加载器（defining loader），后者称为初始加载器（initiating loader）。在 Java 虚拟机判断两个类
+是否相同的时候，使用的是类的定义加载器。也就是说，哪个类加载器启动类的加载过程并不重要，重要的是最终定义这个类的加载器。
+
+
+下面是一个自定义的类加载器的实例
+```Java
+public class MyClassLoader extends ClassLoader{
+
+
+    private String path;
+
+    public MyClassLoader(String path){
+        this.path=path;
+    }
+
+    @Override
+    public Class<?> findClass(String name) throws ClassNotFoundException {
+        FileInputStream fis;
+        ByteArrayOutputStream bao=null;
+        try {
+            fis=new FileInputStream(path+File.separator+name+".class");
+            bao=new ByteArrayOutputStream();
+            byte buffer[]=new byte[100];
+            int readLen;
+            while ((readLen = fis.read(buffer)) > 0){
+                bao.write(buffer,0,readLen);
+            }
+        } catch (FileNotFoundException e) {
+            throw new ClassNotFoundException("找不到文件");
+        }catch (IOException ignored){}
+
+        //.class文件的内容,查找类文件的过程
+        byte[] classData=bao.toByteArray();
+        //define完成类加载的过程
+        return super.defineClass(classData,0,classData.length);
+    }
+
+    public static void main(String[] args) throws Exception {
+        MyClassLoader loader=new MyClassLoader("/home/zview");
+        System.out.println(loader.getClass().getClassLoader());
+
+
+        ClassLoader tempLoader=loader;
+        while (tempLoader!=null){
+            System.out.println(tempLoader);
+            tempLoader=tempLoader.getParent();
+        }
+
+        Class<?> testclass=loader.findClass("testClass");
+        System.out.println(testclass.getClassLoader());
+
+        //尝试调用out()方法
+        testclass.getMethod("out").invoke(testclass.newInstance());
+    }
+}
+输出为
+sun.misc.Launcher$AppClassLoader@18b4aac2
+MyClassLoader@7f31245a
+sun.misc.Launcher$AppClassLoader@18b4aac2
+sun.misc.Launcher$ExtClassLoader@6d6f6e28
+测试成功
+MyClassLoader@7f31245a
+```
+在执行之前，我首先编写了类`testClass`并且进行了编译。
+上面自定义的类加载器依然遵从与双亲委派模型。  根据输出，MyClassLoader的加载器是AppClassLoader。
+而MyClassLoader本身也会继承jvm内置的三个类加载器。
+在执行的时候，首先依次尝试使用BootStrap、ExtClassLoader、AppClassLoader进行加载，但是都找不到testCLass，因此最终
+交由MyCLassLoader进行加载，在findCLass方法中，找到了testClass.class,并且通过defineClass()方法完成了类加载的过程。
+这里仅仅是一个实例，在实际应用中这里的.class文件可以来自于网络或者其他的资源中。
+
+## 双亲委派模型的意义
+系统安全性：Java类随着加载它的类加载器一起具备了一种带有优先级的层次关系。比如，Java中的Object类，它存放在rt.jar之中,无论哪一个类加载器要加载这个类，最终都是委派给处于模型最顶端的启动类加载器进行加载，因此Object在各种类加载环境中都是同一个类。如果不采用双亲委派模型，那么由各个类加载器自己取加载的话，那么系统中会存在多种不同的Object类。
+(1)  启动类加载器：<JAVA_HOME>\lib
+(2)  扩展类加载器：<JAVA_HOME>\lib\ext
+(3)  应用程序类加载器：加载用户类路径上所指定的类库
+
+需要注意的是Java中区分类是通过类的全类名和类加载器共同决定的。
+不同的类加载器为相同名称的类创建了额外的名称空间。相同名称的类可以并存在 Java 虚拟机中，只需要用不同的类加载器来加载它们即可。不同类加载器加载的类之间是不兼容的，这就相当于在 Java 虚拟机内部创建了一个个相互隔离的 Java 类空间。
