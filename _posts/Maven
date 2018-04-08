@@ -1,0 +1,258 @@
+# Maven
+生产环境下开发不再是一个项目一个工程,而是每一个模块创建一个工程,而多个模块整合在一起就需要
+使用到像 Maven 这样的自动化构建工具。,专注服务于 Java 平台的项目构建和依赖管理。
+## Meavn的作用
+1.方便的添加第三方的jar包
+每个 jar 包本身只在本地仓库中保存一份,需要 jar 包的工程只需要以坐标的方式
+简单的引用一下就可以了。节省了空间，避免了多个工程重复引入jar包带来的混乱
+2.自动解决jar包依赖
+Maven 可以自动的将当前 jar 包所依赖的其他所有 jar 包全部导入进来
+3.以统一规范的方式来获取第三方的jar包
+3.将项目拆分成多个工程模块
+##  项目构建的主要环节
+1. 清理===>清除target目录（mvn clean）
+2. 编译
+3. 测试
+4. 报告
+5. 打包
+6. 安装===>将本项目安装到mvn本地仓库中，可供其他项目引用（mvn install）
+7. 部署
+
+## 约定的目录结构
+必须得遵从Maven目录结构的约定，Maven才能够找到每个文件对应的位置，实现自动化的构建任务。
+```
+Hello(项目名)
+    src
+    ------main
+          ------java
+          ------resources
+    ------test
+          ------java
+          ------resources
+    pom.xml
+    target(mvn命令执行后自己生成的目标目录)
+```
+## POM坐标
+[1]groupid:公司或组织的域名倒序+当前项目名称
+[2]artifactId:当前项目的模块名称
+[3]version:当前模块的版本
+```XML
+<groupId>me.zview.maven</groupId>
+<artifactId>Hello</artifactId>
+<version>0.0.1-SNAPSHOT</version>
+```
+## 依赖
+```XML
+<dependencies>
+      <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <version>4.11</version>
+          <scope>test</scope>
+      </dependency>
+  </dependencies>
+```
+### 依赖查找的过程
+Maven会先在本地Repository中查找依赖，如果依赖存在，则使用该依赖，如果不存在，
+则通过pom.xml中的Repository配置从远程下载依赖到本地Repository中。
+默认情况下，Maven将使用Maven Central Repository作为远端Repository
+
+### scope(依赖的范围）
+scope指定的对应的依赖包的作用范围，主要有三种取值
+- compile(默认)
+默认值，在主程序、测试程序中均有效，参与打包。作用于整个项目中
+- test
+仅仅对于测试程序可用。即只有test目录下的类可以引用相应jar包。在测试的时候使用。不会参与打包。
+- provided
+主要用于开发环境，对于主程序和测j试程序都可见。但是不参与打包。例如servlet-api.jar，由于其在服务器中也存在，
+因此在打包的时候不参与。部署运行之后使用服务器提供的jar。避免jar包的重复。
+
+### 依赖的传递性
+Mvn可以自动的解决jar包依赖，也就是说项目A引用了项目B的依赖，则项目B中所有的jar{compile作用域}都会引入到项目A中
+只有compile作用域的jar包满足传递性
+### 依赖的排除
+```XML
+  <dependencies>
+       <dependency>
+           <groupId>me.zview.maven</groupId>
+           <artifactId>meavn-A</artifactId>
+           <version>1.0-RELEASED</version>
+           <exclusions>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-core</artifactId>
+               </exclusion>
+           </exclusions>
+       </dependency>
+   </dependencies>
+```
+通过exclusions标签控制，排除掉不希望导入的包的依赖传递(自动的依赖导入)。
+这样做多是因为依赖所引用的某些jar包可能不稳定，或者根本不需要
+### 统一管理jar包版本
+```XML
+<properties>
+      <spring.version>4.1.1.RELEASE</spring.version>
+</properties>
+```
+properties标签就像是pom中声明的变量一样，后面使用${spring.version}进行引用即可
+### 依赖的原则（解决jar包的版本冲突）
+由于依赖的传递性，可能报纸jar包的版本冲突
+1. 情形1---就近原则
+项目A引入项目B的依赖，项目B又引入项目C的依赖。如果BC中有同一个jar包的不同版本，A中以B中的为准。
+2. 情形2---先声明者优先原则
+项目A同时引入BC的依赖，如果BC中有同一个jar包的不同版本，A中以BC当中优先声明的那个为准
+
+## 仓库
+ 仓库包括本地仓库/远程仓库，远程仓库又分为局域网私服/中央仓库/中央仓库镜像
+ 仓库中保存着Maven插件/用户自己开发安装的项目模块/第三方的框架和工具的jar包
+ 重要的是，不论是jar包还是插件，在仓库中都是按照统一的方式保存的，都是安装POM坐标生成的目录结构。
+
+## 生命周期
+当 Maven 开始构建工程，会按照所定义的阶段序列的顺序执行每个阶段注册的目标。Maven 有以下三个标准的生命周期：
+- clean
+- default(or build)
+- site  ==>  用于生成站点文档
+
+这三套声明周期都有自己的不同的阶段(Phase)，执行每一个Phase的时候，都要从当前的这个生命周期的第一个Phase开始执行
+
+其中 default 生命周期的核心阶段包括：
+- validate
+- compile
+- test
+- package
+- verify
+- install
+- deploy
+
+使用`mvn + Phase名称`就能直接执行对应的阶段。其中某些带有连字符的阶段不能通过 shell 命令单独指定。例如：(pre-, post-, or process-*)
+
+● Maven 的核心仅仅定义了抽象的生命周期,具体的任务都是交由插件完成的。
+● 每个插件都能实现多个功能,每个功能就是一个插件目标。
+●  Maven 的生命周期与插件目标相互绑定,以完成某个具体的构建任务。
+也就是说每一个插件可能有多个目标，但是每一个目标都仅仅对应着一个Phase。一个插件可以完成多个Phase。
+goal也是按顺序执行的，一个phase被执行时，绑定到phase里的goal会按绑定的时间被顺序执行，
+不管phase己经绑定了多少个goal，你自己定义的goal都可以继续绑到phase中。
+
+这个关系比较混乱，整理一下就是生命周期是由一系列的Phase组成的。Phase的实现是通过执行插件来完成的。每一插件可以有多个goal，每个goal只能绑定在一个Phase上
+但是每个Phase可以绑定多个goal。当执行某一个Phase的时候（mvn Phase名称），绑定在上面的每个goal会按照绑定的时间顺序执行！
+
+`mvn [plugin-name]:[goal-name]` 可以直接执行插件的某一个goal
+
+## 插件
+Maven 使用 plugin 来执行实际操作的，在默认情况下，Maven 会绑定以下几个插件来完成基本操作。
+
+plugin|	function|	life cycle phase
+-|-|-|
+maven-clean-plugin|	清理上一次执行创建的目标文件	|clean
+maven-resources-plugin|	处理源资源文件和测试资源文件|	resources,testResources
+maven-compiler-plugin	|编译源文件和测试源文件	|compile,testCompile
+maven-surefire-plugin|	执行测试文件	|test
+maven-jar-plugin|	创建 jar	|jar
+maven-install-plugin	|安装 ja	|install
+maven-deploy-plugin|	发布 jar|	deploy
+
+## POM的一些其他标签
+`packaging` 指定打包方式，包括war、jar、pom等。
+
+
+
+## 继承！！
+由于非 compile 范围的依赖信息是不能在“依赖链”中传递的,所以有需要的工程只能单独配置
+此时如果项目需要将各个模块的非compile的版本统一修改,那么到各个工程中手动修改无疑是非常不可取的。
+使用继承机制就可以将这样的依赖信息统一提取到父工程模块中进行统一管理。
+1.创建父工程，打包方式选择pom
+```xml
+<groupId>me.zview.maven</groupId>
+<artifactId>maven-root</artifactId>
+<packaging>pom</packaging>
+<version>1.0-RELEASED</version>
+```
+2.创建子工程，使用`parent标签`引用父工程
+```xml
+<parent>
+     <groupId>me.zview.maven</groupId>
+     <artifactId>maven-root</artifactId>
+     <version>1.0-RELEASED</version>
+ </parent>
+ <modelVersion>4.0.0</modelVersion>
+  <!--作为子工程只需要指定artifactId,groupId和 version和夫工程中一致-->
+ <artifactId>meavn-A</artifactId>
+```
+3.在父工程中管理依赖
+将 Parent 项目中的 dependencies 标签,用 dependencyManagement 标签括起来
+```XML
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.9</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
+在子项目中重新指定需要的依赖,不需要指定scope和version
+```XML
+<dependencies>
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+    </dependency>
+</dependencies>
+```
+## 聚合
+将多个工程拆分为模块后,需要手动逐个安装到仓库后依赖才能够生效。修改源码后也需要逐个手动进
+行 clean 操作。而使用了聚合之后就可以批量进行 Maven 工程的安装、清理工作。
+```XML
+<modules>
+      <module>../Hello</module>
+      <module>../HelloFriend</module>
+      <module>../MakeFriends</module>
+</modules>
+```
+## 继承和聚合同时使用
+父工程
+```XML
+    <groupId>me.zview.maven</groupId>
+    <artifactId>maven-root</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-RELEASED</version>
+    <modules>
+        <module>meavn-A</module>
+        <module>maven-B</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.11</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+```
+子工程
+```XML
+    <parent>
+        <artifactId>maven-root</artifactId>
+        <groupId>me.zview.maven</groupId>
+        <version>1.0-RELEASED</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>meavn-A</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+    </dependencies>
+```
+
+## Maven应用的思考
+Maven实际上是以一种统一的方式来管理和检索jar包。在获得到jar包之后，再通过jar包内部的包目录结构
+定位到具体的Class类。因此应该注意虽然groupID和包名中都应该有组织名称，但是二者并没有必然联系。
+前者是用来定位jar包，后者定位具体的Class。
