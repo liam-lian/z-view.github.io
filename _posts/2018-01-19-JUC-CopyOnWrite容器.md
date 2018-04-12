@@ -20,8 +20,8 @@ CopyOnWrite并发容器用于读多写少的并发场景
 
 源码
 
-```
-写时复制，且加锁
+```Java
+//写时复制，且加锁
 public boolean add(E e) {
         final ReentrantLock lock = this.lock;
         lock.lock();
