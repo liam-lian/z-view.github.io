@@ -31,7 +31,7 @@ ProceedingJoinPoint对象是JoinPoint的子接口,该对象只用在@Around的�
 
 `Object proceed(Object[] var1) throws Throwable //传入的新的参数去执行目标方法` 两个方法.
 
-```
+```Java
 	@Component
 	@Aspect
 	@EnableAspectJAutoProxy
