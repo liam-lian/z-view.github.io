@@ -1,0 +1,51 @@
+
+
+发生线程安全问题的原因是：对于可变的共享变量的不正确操作。
+保证线程安全的三个手段：
+- 不在线程之间共享变量(变量隔离)
+- 将共享变量设置为不可变的
+- 对可变共享变量进行同步
+
+线程安全需要确保对象状态变量操作的原子性和内存可见性。
+对于影响线程状态的变量进行同步，需要在所有可能变化位置使用**同一把锁**进行同步。
+
+volatile：
+编译器不会将volatile变量与其他内存操作重排序，volatile变量不会被缓存在寄存器或者其他处理器不可见的地方。
+从内存可见性的角度来说：写入volatile变量相当于退出同步代码块，读取相当于进入同步代码块。
+
+溢出
+讲私有状态错误的发布出去，会破坏类的封装性，导致线程安全问题。
+```Java
+//state溢出了，其他线程可以随意的修改Demo内部的状态。
+class Demo{
+    private String[] state={"AA","BB"};
+    public String[] getState(){return state;}
+}
+```
+防止this引用溢出
+```java
+//在内部类EventListener中可以使用ThisEscape的引用，但是这个时候事实上ThisEscape还没有构造完成，不应该暴露this指针。
+public class ThisEscape{
+    public ThisEscape(){
+      source.registerListener(
+          new EventListener(){
+              public void onEvent(Event e){
+                  e.dosomething();
+              }
+          }
+      );
+    }
+}
+```
+在构造函数中启动一个线程。构造函数中创建一个线程并没有错，但最好不要立即启动它。
+在构造函数中调用一个可覆盖的实例方法同样会导致this引用在构造期间逸出。
+如果想在构造函数中注册监听器或者启动线程，可以使用一个私有的构造函数和一个公共的工厂方法，避免对象不正确的创建。
+
+线程封闭
+- 栈封闭
+- ThreadLocal
+
+不可变对象
+- 对象创建以后，状态就不能修改
+- 所有的域都是final
+- 对象在被创建的时候，this指针没有溢出
