@@ -33,7 +33,7 @@ Channel认为是IO源与IO目标之间的一个连接，但是Channel不能直�
  - transferTo()
 #### 内存映射文件
 一种利用了虚拟内存的机制。存映射文件允许我们创建和修改那些因为太大而不能放入内存的文件，此时就可以假定整个文件都放在内存中，而且可以完全把它当成非常大的数组来访问。实际上就是把这个文件作为看虚拟内存的一部分。
-```
+```Java
  @Test
     public  void test01() throws IOException {
 
@@ -64,7 +64,7 @@ Channel认为是IO源与IO目标之间的一个连接，但是Channel不能直�
         fc1.close();
         fc2.close();
     }
-    
+
 
     @Test
     public void test3() throws IOException{
@@ -82,7 +82,7 @@ Channel认为是IO源与IO目标之间的一个连接，但是Channel不能直�
 只需要在传入BUffer的位置传入Buffer数组即可，这样数据会依次读入/写入到对应的Buffer中  。
 
 ####   SocketChannel & ServerSocketChannel  
-```
+```Java
  @Test
     public void client() throws IOException {
 
@@ -121,8 +121,3 @@ Channel认为是IO源与IO目标之间的一个连接，但是Channel不能直�
         fileChannel.close();
     }
 ```
-
-
-
-
-
