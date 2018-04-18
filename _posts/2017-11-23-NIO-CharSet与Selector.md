@@ -6,9 +6,9 @@ catagory:   NIO
 tags:   [NIO]
 ---
 ### CharSet    
-在java.nio.charset包中共提供了Charset、CharsetDecoder、CharsetEncoder、CodeResult、CodingErrorAction五个类，均继承自Object类，其中Charset实现了Comparable接口，其它类均为自身实现。 
+在java.nio.charset包中共提供了Charset、CharsetDecoder、CharsetEncoder、CodeResult、CodingErrorAction五个类，均继承自Object类，其中Charset实现了Comparable接口，其它类均为自身实现。
   首先应该理解，编码是将String==》bytes，解码是把bytes===》String
-```
+```Java
 Charset cs1 = Charset.forName("GBK");
 //获取编码器
 CharsetEncoder ce = cs1.newEncoder();

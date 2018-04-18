@@ -1,0 +1,26 @@
+
+
+InputStreamReader和OutputStreamWriter
+----
+InputStreamReader 是字符流Reader的子类，是字节流通向字符流的桥梁。
+可以在构造器重指定编码的方式，如果不指定的话将采用底层操作系统的默认编码方式。
+
+在JVM内存中的所有的数据都是按照**Unicode**编码的，对于Reader和Writer，是操作字符的。
+那么jvm确保在内存中和文件中保存的是同样的字符(如果编码不同则二进制不同)。
+在Reader和Writer进行读写的时候，默认会使用当前的操作系统的默认编码格式进行编码和解码。
+如果文件使用的不是操作系统默认的编码格式，那么就会出现问题。这个时候需要使用`转换流`来制定编码格式
+
+事实上,InputStreamReader和OutputStreamWriter内部封装的分别是`StreamDecoder`和`StreamEncoder`，
+通过他们来实现真正的读写操作。
+
+BufferedReader/BufferedWriter
+---
+带有缓冲区的Reader和Writer，这样的读写速度会更快。默认内部的缓冲区v大小是8192。
+一个典型的用法
+```Java
+BufferedReader reader = new BufferedReader(
+                          new InputStreamReader(
+                                 new FileInputStream("filename"),"UTF-8"
+                                 )
+                        );
+```
