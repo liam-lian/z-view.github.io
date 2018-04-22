@@ -60,7 +60,10 @@ private T setInitialValue() {
 ```
 
 1. 每个线程中都有一个自己的ThreadLocalMap类对象，可以将线程自己的对象保持到其中，各管各的，线程可以正确的访问到自己的对象。 
-2. 将一个共用的ThreadLocal静态实例作为key，将不同对象的引用保存到不同线程的ThreadLocalMap中，然后在线程执行的各处通过这个静态ThreadLocal实例的get()方法取得自己线程保存的那个对象，避免了将这个对象作为参数传递的麻烦。 
+2. 将ThreadLocal实例作为key，将不同对象的引用保存到不同线程的ThreadLocalMap中，然后在线程执行的各处通过这个静态ThreadLocal实例的get()方法取得自己线程保存的那个对象，避免了将这个对象作为参数传递的麻烦。 
+
+ThreadLocal本身在整个流程中就是作为Map的key的价值存在的，真正的value的值是保存在Thread类的Field中的map里面。    
+因此很多时候习惯将ThreadLocal变量设置为static的，没有必要让他创建很多个，因为你不同的Thrad中即使是key一样也没有什么关系。
 
 ###  ThreadLocalMap
 
