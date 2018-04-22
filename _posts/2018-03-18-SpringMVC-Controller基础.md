@@ -247,10 +247,11 @@ public String testModel(Person person){
 
 ### SpringMVC 确定目标方法 POJO 类型入参的过程
 
-1. 确定一个 key:
-  1). 若目标方法的 POJO 类型的参数木有使用 @ModelAttribute 作为修饰, 则 key 为 POJO 类名第一个字母的小写
-  2). 若使用了  @ModelAttribute 来修饰, 则 key 为 @ModelAttribute 注解的 value 属性值.
-2. 在 implicitModel 中查找 key 对应的对象, 若存在, 则作为入参传入。【这里是request作用域的存在，一般情况下可能是@ModelAttribute 修饰的方法中进行的初始化，或者是forward之前进行的初始化】
+1. 确定一个 key:     
+  1). 若目标方法的 POJO 类型的参数木有使用 @ModelAttribute 作为修饰, 则 key 为 POJO 类名第一个字母的小写    
+  2). 若使用了  @ModelAttribute 来修饰, 则 key 为 @ModelAttribute 注解的 value 属性值.    
+2. 在 implicitModel 中查找 key 对应的对象, 若存在, 则作为入参传入。    
+【这里是request作用域的存在，一般情况下可能是@ModelAttribute 修饰的方法中进行的初始化，或者是forward之前进行的初始化】     
 3. 若 implicitModel 中不存在 key 对应的对象, 则检查当前的 Handler 是否使用 @SessionAttributes 注解修饰,  若使用了该注解, 且 @SessionAttributes 注解的 value 属性值中包含了 key, 则会从 HttpSession 中来获取 key 所对应的 value 值, 若存在则直接传入到目标方法的入参中. 若不存在则将     **抛出异常**. 【这里是Seesion作用域的存在，一般是在之前通过Session曾经放入进入HttpSession中，特别注意异常】
 4. 若 Handler 没有标识 @SessionAttributes 注解或 @SessionAttributes 注解的 value 值中不包含 key, 则
   会通过反射来创建 POJO 类型的参数, 传入为目标方法的参数
