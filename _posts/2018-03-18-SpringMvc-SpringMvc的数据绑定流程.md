@@ -71,7 +71,7 @@ tags:   [SpringMVC]
 
 ### 关于mvc:annotation-driven
 
-`<mvc:annotation-driven/>`会自动注册ReuqestMappingHandlerMapping、ReuqestMappingHandlerHandler、ExceptionHanderExceptionResolver三个bean。还提供以下支持：
+`<mvc:annotation-driven/>`会自动注册ReuqestMappingHandlerMapping、ReuqestMappingHandlerAdapter、ExceptionHanderExceptionResolver三个bean。还提供以下支持：
 
 - 支持使用ConversionService实例对表单参数进行类型转换
 - 支持使用@NumberFormat 注解 @DateTimeFormat 注解完成数据类型的格式化
