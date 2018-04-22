@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      Fork&Join
-date: 2017-02-21
+date: 2018-01-19
 category:   JUC
 tags:   [JUC]
 ---
@@ -21,7 +21,7 @@ tags:   [JUC]
    - **RecursiveTask** ：用于有返回结果的任务。
 - ForkJoinPool ：ForkJoinTask需要通过ForkJoinPool来执行，任务分割出的子任务会添加到当前工作线程所维护的双端队列中，进入队列的头部。当一个工作线程的队列里暂时没有任务时，它会随机从其他工作线程的队列的尾部获取一个任务。
 
-```
+```Java
 public class ForkandJoinTest {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
