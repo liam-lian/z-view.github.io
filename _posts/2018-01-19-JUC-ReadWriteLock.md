@@ -14,7 +14,7 @@ ReentrantReadWriteLock会使用两把锁来解决问题，一个读锁，一个�
 
 就是说写-写、读-写互斥，读-读可以同时进行
 
-```
+```Java
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
