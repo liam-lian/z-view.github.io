@@ -8,11 +8,14 @@ tags:   [SpringMVC]
 
 ### @RequextMapping
 
-```
+```Java
 @AliasFor("path")
 String[] value() default {};
+
 RequestMethod[] method() default {};
+
 String[] params() default {};
+
 String[] headers() default {};
 ```
 
@@ -134,7 +137,7 @@ public String testCookieValue(@CookieValue(value = "cookieID",required = false) 
 
 Spring可以直接根据POJO的参数名将对应的值填充到对应的参数中，**重要的是支持级联属性**
 
-```
+```Java
 @RequestMapping("/testPOJO")
 public void testPOJO(Person person){
     System.out.println(person);
@@ -165,7 +168,7 @@ public void testPOJO(Person person){
 
 一般作为参数，在函数中对于他们的操作处理，会被放到request请求域中，然后传递给View
 
-```
+```Java
 @RequestMapping("/testModel")
 public String testModel(Model model){
     model.addAttribute("lz","lzzz");
@@ -214,7 +217,7 @@ public class HomeController {
 
 ### @ModelAttribute
 
- @ModelAttribute 标记的方法, 会在每个目标方法执行之前被 SpringMVC 调用!
+@ModelAttribute 标记的方法, 会在每个目标方法执行之前被 SpringMVC 调用!
 
 @ModelAttribute 注解也可以来修饰目标方法 POJO 类型的入参, 其 value 属性值有如下的作用:
 
@@ -222,7 +225,7 @@ public class HomeController {
  *  SpringMVC 会以value 为 key, POJO 类型的对象为value, 存入到 request 中.
 
 
-```
+```Java
 @ModelAttribute
 public void getPerson(@RequestParam(value = "id" ,required = false)Integer id, Model model){
     if(id!=null){
@@ -253,7 +256,7 @@ public String testModel(Person person){
   会通过反射来创建 POJO 类型的参数, 传入为目标方法的参数
 5. SpringMVC 会把 key 和 POJO 类型的对象保存到 implicitModel 中, 进而会保存到 request 中.
 
-```
+```Java
 @Controller
 @SessionAttributes("person")
 public class NewController {
@@ -272,7 +275,7 @@ public class NewController {
 
 上面代码，首先addSession，将person加入到Session作用域中，之后ModelAttribute需要确定POJO参数，发现在implicitModel 没有，但是在Session作用域中存在，因此从Session中拿到了。注意如果不首先执行addSession会出异常，因为@SessionAttributes("person")告诉我们说person就在Session中，而/ModelAttribute没有找到就会出错
 
-```
+```Java
 @RequestMapping("/addSession")
 public String addSession(Model model){
     model.addAttribute(new Person("lz",111));
