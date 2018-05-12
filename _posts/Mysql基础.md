@@ -288,16 +288,14 @@ CREATE TABLE copy SELECT * FROM book ＃copy和book有一样的结构和数据
 |Bigint       |  一共是64位    ||
 |float(M,D)   |  一共是32位    |M表示整个数字的总的位数长度,D表示的是小数部分的长度,如果超出范围将会插入临界值|
 |double(M,D)       |  一共是64位    |ＭＤ都可以忽略掉,忽略之后对精度没有任何要求|
-|DEC(M,D)       |  一共是64位    |Ｍ默认是10,D默认是0,能够更加精准的表示数字|
-
+|DEC(M,D)       |  一共是64位    |Ｍ默认是10,D默认是0,能够更加精准的表示数字，表示的是精确的数字，尽量使用DEC|
 |char(M)       |  固定占用Ｍ个位置,M可省略，默认为１   |占用空间会比较浪费但是效率高一些|
-|varvhar(M)       | 最大占用Ｍ个字符，按照实际的数据动态的占用 |节省空间,但是效率低一些|
+|varvhar(M)       | 最大占用Ｍ个字符，按照实际的数据动态的占用 |节省空间,但是效率低一些，基本上都能用varchar代替char|
+|text  |更长的文本 |不能设置默认值|
 |ENUM('a','v','z')  |枚举 ||
 |SET('a','v','z')  |可以放入的元素是set中元素的字集 ||
-
-
 |date  |4byte ||
-|datetime  |8byte |不受时区影响|
+|datetime  |8byte(新版本改成了5byte，可以用datetime代替timestamp) |不受时区影响|
 |timestamp  |4byte |受时区影响|
 |time  |3byte ||
 |year  |1byte ||
