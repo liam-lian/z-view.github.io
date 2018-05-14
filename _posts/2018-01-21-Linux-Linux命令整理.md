@@ -15,3 +15,11 @@ tar -cvf - /ect | tar -xvf -
 unix时间戳
 自 1970 年 1 月 1 日（00:00:00 GMT）以来的秒数
 ```
+```bash
+grep -A1 keyword filename
+找出filename中带有keyword的行，输出中除显示该行外，还显示之后的一行(After 1)
+grep -B1 keyword filename
+找出filename中带有keyword的行，输出中除显示该行外，还显示之前的一行(Before 1)
+grep -1 keyword filename
+找出filename中带有keyword的行，输出中除显示该行外，还显示之前的一行(After 1)和显示之后的一行(After 1）
+```
